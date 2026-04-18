@@ -1,4 +1,4 @@
-# 🎯 **Proposta de Escopo – Projeto de Dados: Futebol Mundial de Clubes**
+# 🎯 **Projeto de Dados: Futebol Mundial de Clubes**
 
 ## 🧠 1. Objetivo do Projeto
 
