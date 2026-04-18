@@ -1,7 +1,3 @@
-Excelente ideia — isso dá um projeto bem completo de engenharia + analytics moderno, com espaço real pra aplicar IA. Vou te sugerir um escopo estruturado, pensando como um mini “data platform” focado em futebol de clubes ⚽
-
----
-
 # 🎯 **Proposta de Escopo – Projeto de Dados: Futebol Mundial de Clubes**
 
 ## 🧠 1. Objetivo do Projeto
