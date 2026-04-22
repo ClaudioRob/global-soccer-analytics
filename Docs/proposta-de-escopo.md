@@ -1,195 +1,269 @@
-# 🎯 **Projeto de Dados: Futebol Mundial de Clubes**
+# 🧠 **Projeto: Global Football Analytics (via Web Scraping)**
 
-## 🧠 1. Objetivo do Projeto
+## 🎯 Objetivo (atualizado)
 
-Construir um pipeline de dados completo que:
+Construir uma plataforma analítica baseada em dados de futebol global coletados via scraping do site Sofascore, permitindo:
 
-* Coleta dados de futebol via API
-* Processa, armazena e organiza os dados
-* Permite análises exploratórias e criação de KPIs
-* Aplica técnicas de IA para insights
-* Apresenta resultados em notebooks (ex: Databricks)
+* Coleta automatizada de dados
+* Estruturação em modelo analítico
+* Criação de KPIs avançados
+* Análises exploratórias em notebooks
+* Aplicação futura de IA
 
 ---
 
-# 🌐 2. Fonte de Dados (API)
+# ⚠️ **Observação importante (arquitetura realista)**
 
-Sugestões boas (todas com dados ricos de clubes, ligas e partidas):
+O Sofascore:
 
-### 🔹 APIs recomendadas:
+* NÃO é uma API pública oficial
+* Usa chamadas internas (XHR / JSON)
+* Possui proteção contra scraping agressivo
 
-* API-Football
-* Football-Data.org
-* Sportmonks
+👉 **Boa notícia:**
+É possível capturar dados estruturados via:
 
-💡 **Sugestão prática:**
-Use **API-Football** → tem:
+* Inspeção de requisições (Network tab)
+* Endpoints JSON internos
 
-* Jogos
+👉 Isso evita scraping HTML pesado (melhor abordagem 👍)
+
+---
+
+# 🧱 **Arquitetura Geral (atualizada)**
+
+```
+[Sofascore]
+     ↓
+[Coleta - Scraper/API interna]
+     ↓
+[Bronze - JSON bruto]
+     ↓
+[Silver - dados tratados]
+     ↓
+[Gold - KPIs]
+     ↓
+[Databricks Notebook]
+```
+
+---
+
+# 🧩 **Divisão por Módulos (estratégia do projeto)**
+
+## 📦 Módulo 1 — Coleta de Dados (AGORA)
+
+* Descobrir endpoints internos
+* Construir scraper estruturado
+* Salvar dados brutos
+
+## 🧹 Módulo 2 — Transformação
+
+* Normalizar dados
+* Criar tabelas (matches, teams, stats)
+
+## 📊 Módulo 3 — Análise
+
+* KPIs
+* EDA
+
+## 🤖 Módulo 4 — IA (futuro)
+
+* Previsões
+* Clusterização
+
+---
+
+# 🚀 **MÓDULO 1 — ESCOPO DETALHADO (INICIAL)**
+
+## 🎯 Objetivo
+
+Construir pipeline de ingestão confiável a partir do Sofascore
+
+---
+
+## 🔍 1. Estratégia de Coleta
+
+### ❌ NÃO fazer:
+
+* Scraping direto de HTML (frágil e lento)
+
+### ✅ FAZER:
+
+Capturar endpoints internos JSON
+
+Exemplo típico (descoberto via DevTools):
+
+```
+https://api.sofascore.com/api/v1/sport/football/events/live
+```
+
+Outros exemplos úteis:
+
+* Jogos por data
+* Estatísticas por jogo
 * Times
-* Estatísticas por partida
-* Jogadores
-* Eventos (gols, cartões, etc.)
+* Rankings
 
 ---
 
-# 🏗️ 3. Arquitetura do Projeto
+## 🧪 2. Primeira coleta (MVP)
 
-## 🔹 Camadas (modelo moderno tipo Lakehouse)
+### 🎯 Caso inicial:
 
-### 🥉 Bronze (Raw)
-
-* Dados brutos da API
-* JSON armazenado (ex: cloud storage)
-
-### 🥈 Silver (Tratado)
-
-* Normalização:
-
-  * Jogos
-  * Times
-  * Jogadores
-  * Estatísticas
-
-### 🥇 Gold (Analítico)
-
-* Tabelas prontas para análise:
-
-  * desempenho por time
-  * ranking ofensivo/defensivo
-  * eficiência por competição
+Coletar **jogos do dia**
 
 ---
 
-# ⚙️ 4. Stack Tecnológica Sugerida
+## 🧾 Código inicial (Python)
 
-## 🔄 ETL / ELT
+```python
+import requests
+import json
+from datetime import datetime
 
-* Apache Airflow ou Prefect
-* Apache Spark (principal no Databricks)
+url = "https://api.sofascore.com/api/v1/sport/football/events/live"
 
-## 📦 Armazenamento
+headers = {
+    "User-Agent": "Mozilla/5.0"
+}
 
-* Amazon S3 ou Google Cloud Storage
+response = requests.get(url, headers=headers)
 
-## 📬 Mensageria (opcional, mas interessante)
+data = response.json()
 
-* Apache Kafka
-  👉 Para simular ingestão em tempo real (ex: jogos ao vivo)
+# salvar bronze
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+file_name = f"bronze_live_matches_{timestamp}.json"
 
-## ☁️ Cloud
+with open(file_name, "w") as f:
+    json.dump(data, f)
 
-* Amazon Web Services ou Google Cloud Platform
-
-## 📊 Análise e exploração
-
-* Databricks
-* Jupyter Notebook
-
----
-
-# 📊 5. KPIs sugeridos (bem interessantes)
-
-## ⚽ Performance de Times
-
-* Win rate (% vitórias)
-* Média de gols por jogo
-* Gols sofridos por jogo
-* Saldo de gols
-
-## 📈 Eficiência
-
-* Gols por finalização
-* Pontos por jogo
-* Aproveitamento como mandante vs visitante
-
-## 🔥 Forma recente
-
-* Últimos 5 jogos (trend)
-* Streak (vitórias consecutivas)
-
-## 🧠 Métricas mais avançadas (se a API permitir)
-
-* xG (expected goals)
-* xGA
-* Conversão de chances
+print("Coleta concluída:", file_name)
+```
 
 ---
 
-# 🤖 6. Uso de Inteligência Artificial
+# 🥉 **Camada Bronze (definição oficial)**
 
-Aqui você pode diferenciar o projeto:
+## 📁 Estrutura sugerida
 
-### 🔮 Modelos possíveis:
-
-* Previsão de resultados (win/draw/loss)
-* Previsão de gols
-* Clusterização de times (estilo de jogo)
-
-### 🧠 Técnicas:
-
-* Regressão (gols esperados)
-* Classificação (resultado da partida)
-* Clustering (perfil ofensivo/defensivo)
+```
+/data/bronze/sofascore/
+    /matches/
+        /live/
+        /by_date/
+    /teams/
+    /statistics/
+```
 
 ---
 
-# 🔁 7. Pipeline (visão prática)
+# 🧹 **Preview da Transformação (Silver)**
 
-1. Extração via API (batch diário)
-2. Armazenamento bruto (JSON)
-3. Transformação com Spark
-4. Criação de tabelas analíticas
-5. Notebook com:
+Você vai extrair:
 
-   * EDA
-   * KPIs
-   * Modelos de ML
-6. Visualização (no próprio Databricks ou export)
+### 📊 Entidades principais:
 
----
-
-# 📓 8. Notebook final (entrega principal)
-
-No Databricks você pode organizar:
-
-* 📌 Introdução
-* 📥 Ingestão de dados
-* 🧹 Tratamento
-* 📊 Análise exploratória
-* 📈 KPIs
-* 🤖 Modelo de ML
-* 📉 Insights finais
+* Match
+* Team
+* Tournament
+* Score
+* Status
 
 ---
 
-# 💡 9. Ideias extras (para enriquecer muito o projeto)
+## Exemplo de transformação:
 
-* Ranking global de clubes baseado em performance recente
-* Comparação entre ligas (Europa vs América do Sul)
-* “Time mais eficiente do mundo”
-* Detecção de underdogs
-* Dashboard simples (se quiser evoluir)
+```python
+import pandas as pd
+
+events = data.get("events", [])
+
+rows = []
+
+for e in events:
+    rows.append({
+        "match_id": e["id"],
+        "tournament": e["tournament"]["name"],
+        "home_team": e["homeTeam"]["name"],
+        "away_team": e["awayTeam"]["name"],
+        "home_score": e["homeScore"]["current"],
+        "away_score": e["awayScore"]["current"],
+        "status": e["status"]["type"]
+    })
+
+df = pd.DataFrame(rows)
+
+df.head()
+```
 
 ---
 
-# 🚀 10. Nome do Projeto (opcional, mas ajuda 😄)
+# ☁️ **Integração com Databricks**
 
-* “Global Club Performance Analytics”
-* “Football Data Lakehouse”
-* “Soccer Intelligence Platform”
+## 🎯 Objetivo
+
+Centralizar tudo em notebooks no Databricks
 
 ---
 
-# ✅ Se quiser evoluir agora:
+## Estrutura sugerida de notebooks:
 
-Posso te ajudar a dar o próximo passo:
+### 📓 Notebook 1 — Ingestão
 
-* Escolher a API ideal e montar a primeira ingestão
-* Desenhar o modelo de dados (tabelas)
-* Criar o primeiro notebook no Databricks
-* Definir KPIs mais avançados
-* Montar arquitetura simplificada (ou profissional)
+* scraping Sofascore
+* salvar bronze
 
-Só me diga:
-👉 você quer algo mais **simples (MVP rápido)** ou **mais robusto (nível portfólio profissional)**?
+### 📓 Notebook 2 — Transformação
+
+* parsing JSON
+* gerar tabelas
+
+### 📓 Notebook 3 — Análise
+
+* KPIs
+* visualizações
+
+---
+
+# 📊 **KPIs futuros (já preparando o terreno)**
+
+* Win rate por time
+* Média de gols
+* Forma recente
+* Ranking por performance
+* Eficiência ofensiva/defensiva
+
+---
+
+# 🔒 **Boas práticas de scraping (importante)**
+
+* Usar headers (User-Agent)
+* Evitar muitas requisições simultâneas
+* Implementar retry
+* Implementar delay (`time.sleep`)
+
+---
+
+# 🧠 **Próximo passo recomendado (agora)**
+
+Vamos evoluir de forma estruturada:
+
+## 👉 Próxima etapa:
+
+Escolher UM tipo de coleta inicial:
+
+1. Jogos ao vivo (mais simples)
+2. Jogos por data (melhor para histórico)
+3. Detalhes de uma partida (mais rico)
+
+---
+
+💬 Me diga qual você prefere — eu posso:
+
+* descobrir endpoints específicos
+* montar scraper mais robusto
+* já estruturar como pipeline (quase produção)
+
+Se quiser um caminho ideal:
+👉 recomendo começar com **jogos por data** (base histórica sólida)
