@@ -1,7 +1,4 @@
-# global-soccer-analytics
-Global club rankings based on recent performance
-
-🧠 Projeto: Global Football Analytics (via Web Scraping)
+# 🧠 Projeto: Global Football Analytics (via Web Scraping)
 🎯 Objetivo (atualizado)
 
 Construir uma plataforma analítica baseada em dados de futebol global coletados via scraping do site Sofascore, permitindo:
