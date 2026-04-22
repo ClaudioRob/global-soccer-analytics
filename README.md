@@ -1,4 +1,4 @@
-# 🧠 Projeto: Global Football Analytics (via Web Scraping)
+# Global Football Analytics (via Web Scraping)
 🎯 Objetivo (atualizado)
 
 Construir uma plataforma analítica baseada em dados de futebol global coletados via scraping do site Sofascore, permitindo:
