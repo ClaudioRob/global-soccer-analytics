@@ -21,11 +21,7 @@ A solução permitirá:
 
 Abaixo está a sequência ideal das atividades para construir o projeto de forma profissional, modular e evolutiva.
 
----
-
 # 🚀 FASE 1 — Foundation & Data Ingestion
-
----
 
 # ✅ Atividade 1 — Descoberta de Endpoints
 
