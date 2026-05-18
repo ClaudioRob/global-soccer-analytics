@@ -17,13 +17,13 @@ A solução permitirá:
 * Estruturação de pipeline moderno de dados
 * Evolução futura para Machine Learning e IA
 
-# 🗺️ Roadmap do Projeto — Passo a Passo
+# 🗺️ Roadmap — Passo a Passo
 
 Abaixo está a sequência ideal das atividades para construir o projeto de forma profissional, modular e evolutiva.
 
 # 🚀 FASE 1 — Foundation & Data Ingestion
 
-# ✅ Atividade 1 — Descoberta de Endpoints
+## ✅ Atividade 1 — Descoberta de Endpoints
 
 ## Status
 
