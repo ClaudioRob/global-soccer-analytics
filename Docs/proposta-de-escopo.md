@@ -1,153 +1,187 @@
-# 🧠 **Projeto: Global Football Analytics (via Web Scraping)**
+# 📘 Documentação do Projeto — Global Football Analytics Platform
 
-## 🎯 Objetivo (atualizado)
+## 🎯 Visão Geral
 
-Construir uma plataforma analítica baseada em dados de futebol global coletados via scraping do site Sofascore, permitindo:
+O projeto tem como objetivo construir uma plataforma moderna de engenharia e análise de dados focada em futebol global, utilizando dados coletados do portal [Sofascore](https://www.sofascore.com/?utm_source=chatgpt.com) através de técnicas de web scraping e consumo de endpoints JSON internos.
 
-* Coleta automatizada de dados
-* Estruturação em modelo analítico
-* Criação de KPIs avançados
+A plataforma será construída de forma modular, utilizando arquitetura Lakehouse, notebooks analíticos no Databricks e transformação analítica com dbt.
+
+---
+
+# ⚽ Objetivos do Projeto
+
+A solução permitirá:
+
+* Coleta automatizada de dados de futebol global
+* Armazenamento de dados brutos (raw)
+* Transformação e normalização de dados
+* Construção de métricas e KPIs
 * Análises exploratórias em notebooks
-* Aplicação futura de IA
+* Estruturação de pipeline moderno de dados
+* Evolução futura para Machine Learning e IA
 
 ---
 
-# ⚠️ **Observação importante (arquitetura realista)**
+# 🧠 Escopo Atual
 
-O Sofascore:
+## 📦 Módulo 1 — Ingestão de Dados
 
-* NÃO é uma API pública oficial
-* Usa chamadas internas (XHR / JSON)
-* Possui proteção contra scraping agressivo
+Responsável pela coleta de dados do Sofascore.
 
-👉 **Boa notícia:**
-É possível capturar dados estruturados via:
+### Objetivos:
 
-* Inspeção de requisições (Network tab)
-* Endpoints JSON internos
+* Descoberta de endpoints internos JSON
+* Extração automatizada de dados
+* Armazenamento da camada Bronze
+* Construção de pipelines iniciais
 
-👉 Isso evita scraping HTML pesado (melhor abordagem 👍)
+### Tecnologias:
+
+* Python
+* requests
+* Databricks Notebook
 
 ---
 
-# 🧱 **Arquitetura Geral (atualizada)**
+## 🧹 Módulo 2 — Transformação (Silver Layer)
 
+Responsável pelo tratamento e estruturação dos dados.
+
+### Objetivos:
+
+* Parsing de JSON
+* Flatten de estruturas aninhadas
+* Padronização de schemas
+* Criação de tabelas Delta
+
+### Tecnologias:
+
+* PySpark
+* Delta Lake
+* Databricks
+
+---
+
+## 📊 Módulo 3 — Analytics Engineering (DBT)
+
+Responsável pela modelagem analítica e KPIs.
+
+### Objetivos:
+
+* Construção de modelos analíticos
+* Criação de métricas
+* Testes de qualidade
+* Lineage
+* Documentação automática
+
+### Tecnologias:
+
+* dbt
+* Databricks SQL
+* Delta Tables
+
+---
+
+## 📈 Módulo 4 — Analytics & Exploration
+
+Responsável pela análise exploratória e geração de insights.
+
+### Objetivos:
+
+* EDA (Exploratory Data Analysis)
+* Criação de KPIs
+* Visualizações
+* Estudos comparativos entre ligas e clubes
+
+### Tecnologias:
+
+* Databricks Notebook
+* Python
+* Pandas
+* Matplotlib / Plotly
+
+---
+
+## 🤖 Módulo 5 — Inteligência Artificial (Futuro)
+
+Responsável por análises preditivas e modelos avançados.
+
+### Possibilidades:
+
+* Predição de resultados
+* Predição de gols
+* Clusterização de times
+* Detecção de padrões táticos
+* Ranking global de clubes
+
+---
+
+# 🏗️ Arquitetura da Plataforma
+
+```text
+                ┌──────────────────┐
+                │    Sofascore     │
+                └────────┬─────────┘
+                         │
+                         ▼
+              ┌────────────────────┐
+              │ Python Scraper/API │
+              └────────┬───────────┘
+                       │
+                       ▼
+              ┌────────────────────┐
+              │ Bronze Layer (RAW) │
+              │ JSON Files         │
+              └────────┬───────────┘
+                       │
+                       ▼
+              ┌────────────────────┐
+              │ Silver Layer       │
+              │ Spark Transform    │
+              └────────┬───────────┘
+                       │
+                       ▼
+              ┌────────────────────┐
+              │ DBT Models         │
+              │ Gold Layer         │
+              └────────┬───────────┘
+                       │
+                       ▼
+              ┌────────────────────┐
+              │ Databricks         │
+              │ Analytics          │
+              └────────────────────┘
 ```
-[Sofascore]
-     ↓
-[Coleta - Scraper/API interna]
-     ↓
-[Bronze - JSON bruto]
-     ↓
-[Silver - dados tratados]
-     ↓
-[Gold - KPIs]
-     ↓
-[Databricks Notebook]
-```
 
 ---
 
-# 🧩 **Divisão por Módulos (estratégia do projeto)**
+# ☁️ Stack Tecnológica
 
-## 📦 Módulo 1 — Coleta de Dados (AGORA)
-
-* Descobrir endpoints internos
-* Construir scraper estruturado
-* Salvar dados brutos
-
-## 🧹 Módulo 2 — Transformação
-
-* Normalizar dados
-* Criar tabelas (matches, teams, stats)
-
-## 📊 Módulo 3 — Análise
-
-* KPIs
-* EDA
-
-## 🤖 Módulo 4 — IA (futuro)
-
-* Previsões
-* Clusterização
+| Camada                | Tecnologia        |
+| --------------------- | ----------------- |
+| Coleta                | Python + requests |
+| Processamento         | PySpark           |
+| Lakehouse             | Delta Lake        |
+| Orquestração (futuro) | Apache Airflow    |
+| Analytics Engineering | dbt               |
+| Analytics             | Databricks        |
+| Armazenamento         | DBFS / S3 / ADLS  |
 
 ---
 
-# 🚀 **MÓDULO 1 — ESCOPO DETALHADO (INICIAL)**
+# 🥉 Bronze Layer (RAW)
 
-## 🎯 Objetivo
+## Objetivo
 
-Construir pipeline de ingestão confiável a partir do Sofascore
+Armazenar dados brutos exatamente como recebidos.
 
----
+## Formato
 
-## 🔍 1. Estratégia de Coleta
+* JSON
 
-### ❌ NÃO fazer:
+## Estrutura sugerida
 
-* Scraping direto de HTML (frágil e lento)
-
-### ✅ FAZER:
-
-Capturar endpoints internos JSON
-
-Exemplo típico (descoberto via DevTools):
-
-```
-https://api.sofascore.com/api/v1/sport/football/events/live
-```
-
-Outros exemplos úteis:
-
-* Jogos por data
-* Estatísticas por jogo
-* Times
-* Rankings
-
----
-
-## 🧪 2. Primeira coleta (MVP)
-
-### 🎯 Caso inicial:
-
-Coletar **jogos do dia**
-
----
-
-## 🧾 Código inicial (Python)
-
-```python
-import requests
-import json
-from datetime import datetime
-
-url = "https://api.sofascore.com/api/v1/sport/football/events/live"
-
-headers = {
-    "User-Agent": "Mozilla/5.0"
-}
-
-response = requests.get(url, headers=headers)
-
-data = response.json()
-
-# salvar bronze
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-file_name = f"bronze_live_matches_{timestamp}.json"
-
-with open(file_name, "w") as f:
-    json.dump(data, f)
-
-print("Coleta concluída:", file_name)
-```
-
----
-
-# 🥉 **Camada Bronze (definição oficial)**
-
-## 📁 Estrutura sugerida
-
-```
+```text
 /data/bronze/sofascore/
     /matches/
         /live/
@@ -158,112 +192,187 @@ print("Coleta concluída:", file_name)
 
 ---
 
-# 🧹 **Preview da Transformação (Silver)**
+# 🥈 Silver Layer
 
-Você vai extrair:
+## Objetivo
 
-### 📊 Entidades principais:
+Estruturar e normalizar os dados.
 
-* Match
-* Team
-* Tournament
-* Score
-* Status
+## Entidades iniciais
 
----
+### `silver_matches`
 
-## Exemplo de transformação:
-
-```python
-import pandas as pd
-
-events = data.get("events", [])
-
-rows = []
-
-for e in events:
-    rows.append({
-        "match_id": e["id"],
-        "tournament": e["tournament"]["name"],
-        "home_team": e["homeTeam"]["name"],
-        "away_team": e["awayTeam"]["name"],
-        "home_score": e["homeScore"]["current"],
-        "away_score": e["awayScore"]["current"],
-        "status": e["status"]["type"]
-    })
-
-df = pd.DataFrame(rows)
-
-df.head()
-```
+* match_id
+* match_date
+* tournament
+* season
+* home_team
+* away_team
+* home_score
+* away_score
+* status
 
 ---
 
-# ☁️ **Integração com Databricks**
+### `silver_teams`
 
-## 🎯 Objetivo
-
-Centralizar tudo em notebooks no Databricks
-
----
-
-## Estrutura sugerida de notebooks:
-
-### 📓 Notebook 1 — Ingestão
-
-* scraping Sofascore
-* salvar bronze
-
-### 📓 Notebook 2 — Transformação
-
-* parsing JSON
-* gerar tabelas
-
-### 📓 Notebook 3 — Análise
-
-* KPIs
-* visualizações
+* team_id
+* team_name
+* country
+* tournament
 
 ---
 
-# 📊 **KPIs futuros (já preparando o terreno)**
+### `silver_tournaments`
 
-* Win rate por time
+* tournament_id
+* tournament_name
+* country
+
+---
+
+# 🥇 Gold Layer (DBT)
+
+## Objetivo
+
+Criar modelos analíticos e KPIs.
+
+## Exemplos de modelos
+
+### `gold_team_performance`
+
+* partidas
+* vitórias
+* derrotas
+* média de gols
+
+---
+
+### `gold_recent_form`
+
+* desempenho últimos 5 jogos
+* sequência de vitórias
+* aproveitamento recente
+
+---
+
+### `gold_scoring_efficiency`
+
+* gols por finalização
+* eficiência ofensiva
+
+---
+
+# 🧪 Qualidade e Governança
+
+## Estratégia
+
+Utilizar testes no DBT para garantir consistência.
+
+## Exemplos
+
+* `match_id` unique
+* scores >= 0
+* times não nulos
+
+---
+
+# 📚 Documentação e Lineage
+
+O DBT será utilizado para:
+
+* geração automática de documentação
+* lineage de tabelas
+* rastreabilidade de transformações
+
+---
+
+# 📓 Estrutura de Notebooks
+
+## Notebook 01 — Ingestão
+
+Responsável pelo scraping e carga Bronze.
+
+---
+
+## Notebook 02 — Silver Processing
+
+Responsável pela transformação e normalização.
+
+---
+
+## Notebook 03 — DBT Analytics
+
+Responsável pelos modelos analíticos.
+
+---
+
+## Notebook 04 — Exploratory Analytics
+
+Responsável pelas análises e visualizações.
+
+---
+
+# 📊 KPIs Planejados
+
+## Times
+
+* Win rate
 * Média de gols
+* Aproveitamento
 * Forma recente
-* Ranking por performance
-* Eficiência ofensiva/defensiva
 
 ---
 
-# 🔒 **Boas práticas de scraping (importante)**
+## Campeonatos
 
-* Usar headers (User-Agent)
-* Evitar muitas requisições simultâneas
-* Implementar retry
-* Implementar delay (`time.sleep`)
-
----
-
-# 🧠 **Próximo passo recomendado (agora)**
-
-Vamos evoluir de forma estruturada:
-
-## 👉 Próxima etapa:
-
-Escolher UM tipo de coleta inicial:
-
-1. Jogos ao vivo (mais simples)
-2. Jogos por data (melhor para histórico)
-3. Detalhes de uma partida (mais rico)
+* Média de gols por liga
+* Competitividade
+* Eficiência ofensiva
 
 ---
 
-💬 Me diga qual você prefere — eu posso:
+## Jogadores (futuro)
 
-* descobrir endpoints específicos
-* montar scraper mais robusto
-* já estruturar como pipeline (quase produção)
+* Participação em gols
+* Eficiência ofensiva
+* Performance por posição
 
-Se quiser um caminho ideal:
-👉 recomendo começar com **jogos por data** (base histórica sólida)
+---
+
+# 🔒 Boas Práticas
+
+## Scraping
+
+* Uso de User-Agent
+* Retry strategy
+* Controle de rate limit
+* Delay entre requests
+
+---
+
+## Engenharia
+
+* Separação Bronze/Silver/Gold
+* Versionamento Git
+* Modelagem incremental
+* Pipelines idempotentes
+
+---
+
+# 🚀 Próximo Passo do Projeto
+
+## Fase Atual
+
+### Descoberta e construção da primeira ingestão:
+
+* Jogos por data (`matches_by_date`)
+
+## Próximas entregas
+
+1. Descobrir endpoints Sofascore
+2. Criar scraper robusto
+3. Estruturar camada Bronze
+4. Construir primeira tabela Silver
+5. Configurar DBT no Databricks
+6. Criar primeiros KPIs analíticos
