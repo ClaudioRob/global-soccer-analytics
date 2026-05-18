@@ -17,484 +17,117 @@ A solução permitirá:
 * Estruturação de pipeline moderno de dados
 * Evolução futura para Machine Learning e IA
 
-# 🗺️ Roadmap — Passo a Passo
+# 🚀 Roadmap do Projeto
 
-Abaixo está a sequência ideal das atividades para construir o projeto de forma profissional, modular e evolutiva.
+## 📌 Fase 1 — Foundation & Data Ingestion
 
-## 🚀 FASE 1 — Foundation & Data Ingestion
+Construção da base do projeto e pipelines iniciais de coleta.
 
-## ✅ Atividade 1 — Descoberta de Endpoints
+### Atividades
 
-## Status
-
-⬅️ Atual
-
-## Objetivo
-
-Mapear endpoints JSON internos do [Sofascore](https://www.sofascore.com/?utm_source=chatgpt.com).
-
-## Entregáveis
-
-* Inventário de endpoints
-* Notebook de testes
-* Primeiras requisições funcionando
+* Descoberta de endpoints internos do Sofascore
+* Estruturação inicial do repositório
+* Construção do primeiro scraper (`matches_by_date`)
+* Implementação da camada Bronze (RAW JSON)
+* Padronização de armazenamento e particionamento
+* Primeira tabela Silver (`silver_matches`)
+* Setup do ambiente no Databricks
 
 ---
 
-## ✅ Atividade 2 — Estrutura Inicial do Projeto
+## 📌 Fase 2 — Analytics Engineering
 
-## Objetivo
+Construção da camada analítica utilizando dbt.
 
-Criar a fundação do repositório.
+### Atividades
 
-## Tarefas
-
-* Criar estrutura de diretórios
-* Configurar Git
-* Criar `requirements.txt`
-* Criar notebooks iniciais
-* Criar README inicial
+* Configuração do DBT
+* Criação de modelos staging
+* Criação de modelos Gold
+* Construção de KPIs
+* Testes de qualidade
+* Geração de documentação e lineage
 
 ---
 
-## Estrutura
+## 📌 Fase 3 — Exploratory Analytics
 
-```text id="mjlwmz"
-/global-football-analytics
-│
-├── /notebooks
-├── /scraper
-├── /configs
-├── /data
-│   ├── /bronze
-│   ├── /silver
-│   └── /gold
-│
-├── /dbt
-├── requirements.txt
-└── README.md
+Exploração dos dados e geração de insights analíticos.
+
+### Atividades
+
+* EDA (Exploratory Data Analysis)
+* KPIs de performance
+* Rankings ofensivos e defensivos
+* Comparações entre ligas e clubes
+* Visualizações analíticas
+
+---
+
+## 📌 Fase 4 — Expansão de Dados
+
+Ampliação do escopo de coleta e granularidade.
+
+### Novos datasets
+
+* Estatísticas avançadas
+* Eventos por partida
+* Dados de jogadores
+* xG, posse de bola, finalizações e cartões
+
+---
+
+## 📌 Fase 5 — Inteligência Artificial
+
+Aplicação de Machine Learning e modelos preditivos.
+
+### Possibilidades
+
+* Predição de resultados
+* Predição de gols
+* Clusterização de times
+* Identificação de padrões táticos
+
+---
+
+## 📌 Fase 6 — Produção & Orquestração
+
+Automação e operacionalização da plataforma.
+
+### Atividades
+
+* Orquestração de pipelines
+* Execuções agendadas
+* Processamento incremental
+* Monitoramento e observabilidade
+
+---
+
+# 🏗️ Arquitetura Geral
+
+```text id="g2t54o"
+Sofascore
+    ↓
+Python Scraper
+    ↓
+Bronze Layer (RAW JSON)
+    ↓
+Silver Layer (Spark / Delta)
+    ↓
+DBT Models (Gold)
+    ↓
+Databricks Analytics
 ```
 
 ---
 
-## ✅ Atividade 3 — Primeiro Scraper Oficial
+# ⚽ Dataset Inicial Prioritário
 
-## Objetivo
+## `matches_by_date`
 
-Construir o primeiro pipeline de ingestão.
+Este dataset será a fundação do projeto e alimentará:
 
-## Dataset inicial
-
-### `matches_by_date`
-
----
-
-## Tarefas
-
-* Criar request HTTP
-* Adicionar headers
-* Implementar retries
-* Implementar timeout
-* Salvar JSON Bronze
-
----
-
-## Entregáveis
-
-* Arquivos JSON salvos
-* Estrutura Bronze criada
-* Pipeline executando
-
----
-
-## ✅ Atividade 4 — Padronização da Camada Bronze
-
-## Objetivo
-
-Criar padrão de armazenamento.
-
----
-
-## Tarefas
-
-* Definir convenção de nomes
-* Criar particionamento por data
-* Estruturar diretórios
-
----
-
-## Estrutura sugerida
-
-```text id="tvjg0o"
-/bronze/sofascore/matches/year=2026/month=05/day=18/
-```
-
----
-
-# ✅ Atividade 5 — Criação da Primeira Silver Table
-
-## Objetivo
-
-Transformar JSON bruto em tabela estruturada.
-
----
-
-## Tarefas
-
-* Ler JSON
-* Flatten do schema
-* Padronizar colunas
-* Criar DataFrame Spark
-* Persistir Delta Table
-
----
-
-## Primeira tabela
-
-### `silver_matches`
-
-Campos:
-
-| Campo      | Tipo      |
-| ---------- | --------- |
-| match_id   | bigint    |
-| match_date | timestamp |
-| home_team  | string    |
-| away_team  | string    |
-| home_score | integer   |
-| away_score | integer   |
-| tournament | string    |
-
----
-
-# ✅ Atividade 6 — Setup do Databricks
-
-## Objetivo
-
-Preparar ambiente analítico.
-
----
-
-## Tarefas
-
-* Criar workspace
-* Configurar cluster
-* Configurar DBFS
-* Subir notebooks
-* Configurar Delta Lake
-
----
-
-# ✅ Atividade 7 — Setup do DBT
-
-## Objetivo
-
-Preparar camada de Analytics Engineering.
-
----
-
-## Tarefas
-
-* Instalar dbt
-* Configurar adapter Databricks
-* Criar projeto DBT
-* Configurar profiles.yml
-
----
-
-## Estrutura
-
-```text id="0i7h7f"
-/dbt
-    /models
-    /staging
-    /marts
-    /tests
-    /snapshots
-```
-
----
-
-# 🚀 FASE 2 — Analytics Engineering
-
----
-
-# ✅ Atividade 8 — Modelos Staging (DBT)
-
-## Objetivo
-
-Padronizar dados Silver.
-
----
-
-## Tarefas
-
-Criar:
-
-* `stg_matches`
-* `stg_teams`
-* `stg_tournaments`
-
----
-
-## Responsabilidades
-
-* casts
-* aliases
-* limpeza
-* normalização
-
----
-
-# ✅ Atividade 9 — Modelos Mart / Gold
-
-## Objetivo
-
-Criar KPIs e métricas.
-
----
-
-## Primeiros modelos
-
-### `gold_team_performance`
-
-KPIs:
-
-* vitórias
-* derrotas
-* média de gols
-* aproveitamento
-
----
-
-### `gold_recent_form`
-
-KPIs:
-
-* últimos 5 jogos
-* streak
-* forma recente
-
----
-
-# ✅ Atividade 10 — Testes DBT
-
-## Objetivo
-
-Garantir qualidade dos dados.
-
----
-
-## Testes
-
-* unique
-* not null
-* accepted values
-
----
-
-# ✅ Atividade 11 — Documentação DBT
-
-## Objetivo
-
-Gerar lineage e documentação automática.
-
----
-
-## Entregáveis
-
-* DAG de modelos
-* documentação HTML
-* rastreabilidade
-
----
-
-# 🚀 FASE 3 — Exploratory Analytics
-
----
-
-# ✅ Atividade 12 — Notebook de EDA
-
-## Objetivo
-
-Explorar comportamento dos dados.
-
----
-
-## Análises
-
-* distribuição de gols
-* mandante vs visitante
-* ligas mais ofensivas
-* frequência de empates
-
----
-
-# ✅ Atividade 13 — KPIs Visuais
-
-## Objetivo
-
-Construir análises executivas.
-
----
-
-## Visualizações
-
-* ranking ofensivo
-* ranking defensivo
-* forma recente
-* eficiência ofensiva
-
----
-
-# 🚀 FASE 4 — Expansão de Dados
-
----
-
-# ✅ Atividade 14 — Coleta de Estatísticas Avançadas
-
-## Novos datasets
-
-* player stats
-* shots
-* possession
-* xG
-* cards
-* substitutions
-
----
-
-# ✅ Atividade 15 — Event-Level Data
-
-## Objetivo
-
-Capturar granularidade por evento.
-
----
-
-## Eventos
-
-* gols
-* faltas
-* cartões
-* substituições
-
----
-
-# 🚀 FASE 5 — IA & Machine Learning
-
----
-
-# ✅ Atividade 16 — Feature Engineering
-
-## Objetivo
-
-Criar variáveis preditivas.
-
----
-
-## Features
-
-* forma recente
-* média gols
-* desempenho casa/fora
-* ranking ofensivo
-
----
-
-# ✅ Atividade 17 — Predição de Resultados
-
-## Modelos
-
-* classificação
-* regressão
-* previsão de gols
-
----
-
-# ✅ Atividade 18 — Clusterização de Times
-
-## Objetivo
-
-Descobrir estilos de jogo.
-
----
-
-## Possibilidades
-
-* ofensivo
-* defensivo
-* posse
-* transição rápida
-
----
-
-# 🚀 FASE 6 — Produção & Orquestração
-
----
-
-# ✅ Atividade 19 — Orquestração
-
-## Tecnologias
-
-* Apache Airflow
-  ou
-* Prefect
-
----
-
-# ✅ Atividade 20 — Pipeline Completa
-
-## Fluxo final
-
-```text id="2jlwm5"
-Scraper
-   ↓
-Bronze
-   ↓
-Silver
-   ↓
-DBT
-   ↓
-Gold
-   ↓
-Analytics
-```
-
----
-
-# 🎯 Ordem Recomendada REAL
-
-## Faça exatamente nesta sequência:
-
-1. Endpoint discovery
-2. Primeiro scraper
-3. Bronze
-4. Silver
-5. Databricks
-6. DBT
-7. Gold KPIs
-8. Analytics
-9. Expansão de datasets
-10. IA
-
----
-
-# 🧠 Recomendação importante
-
-## NÃO tente:
-
-* coletar tudo no início
-* modelar tudo
-* prever jogos cedo demais
-
-## Foque primeiro:
-
-### `matches_by_date`
-
-Essa será:
-
-* sua tabela fato central
-* a fundação do DBT
-* a base dos KPIs
-* a base futura de IA
+* KPIs
+* Modelos DBT
+* Analytics
+* Machine Learning futuro
