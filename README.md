@@ -21,7 +21,7 @@ A solução permitirá:
 
 Abaixo está a sequência ideal das atividades para construir o projeto de forma profissional, modular e evolutiva.
 
-# 🚀 FASE 1 — Foundation & Data Ingestion
+## 🚀 FASE 1 — Foundation & Data Ingestion
 
 ## ✅ Atividade 1 — Descoberta de Endpoints
 
@@ -41,7 +41,7 @@ Mapear endpoints JSON internos do [Sofascore](https://www.sofascore.com/?utm_sou
 
 ---
 
-# ✅ Atividade 2 — Estrutura Inicial do Projeto
+## ✅ Atividade 2 — Estrutura Inicial do Projeto
 
 ## Objetivo
 
@@ -77,7 +77,7 @@ Criar a fundação do repositório.
 
 ---
 
-# ✅ Atividade 3 — Primeiro Scraper Oficial
+## ✅ Atividade 3 — Primeiro Scraper Oficial
 
 ## Objetivo
 
@@ -107,7 +107,7 @@ Construir o primeiro pipeline de ingestão.
 
 ---
 
-# ✅ Atividade 4 — Padronização da Camada Bronze
+## ✅ Atividade 4 — Padronização da Camada Bronze
 
 ## Objetivo
 
