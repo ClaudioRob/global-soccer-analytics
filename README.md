@@ -1,4 +1,4 @@
-# 📘 Documentação do Projeto — Global Football Analytics Platform
+# 📘 Global Football Analytics Platform
 
 ## 🎯 Visão Geral
 
